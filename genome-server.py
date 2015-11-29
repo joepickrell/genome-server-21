@@ -22,7 +22,11 @@ vcf_path = '/home/twenty-server/genome-server/vcffile'
 # simple content model: dictionary of files w/ prices
 files = {}
 
-files[1] = 'dnl13_cop.imputed.vcf.gz', 1000
+# get a list of the files in the directory
+file_list = os.listdir(vcf_path)
+
+for file_id in range(len(file_list)):
+	files[file_id] = file_list[file_id], 1000
 
 # endpoint to look up VCF files to buy
 @app.route('/vcf')
@@ -44,10 +48,10 @@ def buy_file():
 
     # check if selection is valid
     # note you still pay for this
-    if(sel < 1 or sel > len(file_list)):
+    if(sel < 0 or sel >= len(file_list)):
         return 'Invalid selection.'
     else:
-        return send_from_directory(vcf_path,file_list[int(sel)-1])
+        return send_from_directory(vcf_path,file_list[int(sel)])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
