@@ -92,5 +92,25 @@ session.commit()
 
 line = infile.readline()
 while line:
+	line = bytes.decode(line)
 	line = line.strip().split()
-	
+	if line[0][0] == "#":
+		line = infile.readline()
+		continue
+	chr = line[0]
+	pos = line[1]
+	snpid = line[2]
+	ref = line[3]
+	alt = line[4]
+	fields = line[8].split(":")
+	gtfields = line[9].split(":")
+	gt = "9/9"
+	gtlk = "NA,NA,NA"
+	for i in range(len(fields)):
+		f = fields[i]
+		if f == "GT":
+			gt = gtfields[i]
+		elif f == "GL":
+			gtlk = gtfields[i]
+	print(gt, gtlk)
+	line = infile.readline()	
