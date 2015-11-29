@@ -18,16 +18,14 @@ payment = Payment(app, wallet)
 # path to the VCF file to sell
 vcf_path = '/home/twenty-server/genome-server/vcffile/dnl13_cop.imputed.vcf.gz'
 
-# get a list of the files in the directory
-file_list = os.listdir(dir_path)
 
 # simple content model: dictionary of files w/ prices
 files = {}
-for file_id in range(len(file_list)):
-    files[file_id+1] = file_list[file_id], random.randrange(1000,3000)
 
-# endpoint to look up files to buy
-@app.route('/files')
+files[0] = vcf_path, 1000
+
+# endpoint to look up VCF files to buy
+@app.route('/vcf')
 def file_lookup():
     return json.dumps(files)
 
@@ -37,7 +35,7 @@ def get_price_from_request(request):
     return files[id][1]
 
 # machine-payable endpoint that returns selected file if payment made
-@app.route('/buy')
+@app.route('/buyvcf')
 @payment.required(get_price_from_request)
 def buy_file():
 
