@@ -16,13 +16,13 @@ wallet = Wallet()
 payment = Payment(app, wallet)
 
 # path to the VCF file to sell
-vcf_path = '/home/twenty-server/genome-server/vcffile/dnl13_cop.imputed.vcf.gz'
+vcf_path = '/home/twenty-server/genome-server/vcffile'
 
 
 # simple content model: dictionary of files w/ prices
 files = {}
 
-files[0] = vcf_path, 1000
+files[1] = 'dnl13_cop.imputed.vcf.gz', 1000
 
 # endpoint to look up VCF files to buy
 @app.route('/vcf')
@@ -43,10 +43,11 @@ def buy_file():
     sel = int(request.args.get('selection'))
 
     # check if selection is valid
+    # note you still pay for this
     if(sel < 1 or sel > len(file_list)):
         return 'Invalid selection.'
     else:
-        return send_from_directory(dir_path,file_list[int(sel)-1])
+        return send_from_directory(vcf_path,file_list[int(sel)-1])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
