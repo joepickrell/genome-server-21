@@ -1,5 +1,7 @@
 # genome-server-21
 
+[in progress]
+
 Use the 21 bitcoin computer to sell API calls to your genotypes and phenotypes
 
 
