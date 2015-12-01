@@ -11,8 +11,7 @@ Setup:
 >git clone https://github.com/joepickrell/genome-server-21.git
 >sudo pip3 install Flask-SQLAlchemy sqlite3
 
-2. make the database of genotypes/phenotypes
+2. make the database of genotypes/phenotypes, serve
 
->cd genome-server-21/sqlite/
->python3 make-db-from-vcf.py ../vcffile/testvcf.vcf.gz test.db
+>python3 genome-server.py vcffile/testvcf.vcf.gz
 
