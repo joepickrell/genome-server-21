@@ -7,6 +7,9 @@ from flask import Flask
 from flask import request
 from flask import send_from_directory
 
+#going to use SQLAlchemy to interact with the database
+from flask.ext.sqlalchemy import SQLAlchemy
+
 # import from the 21 Developer Library
 from two1.lib.wallet import Wallet
 from two1.lib.bitserv.flask import Payment
