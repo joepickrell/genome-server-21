@@ -113,4 +113,10 @@ while line:
 		elif f == "GL":
 			gtlk = gtfields[i]
 	print(gt, gtlk)
-	line = infile.readline()	
+	newvariant = Variant(chr=chr, pos=pos, rsid=snpid, ref=ref, alt=alt, geno=gt, genolk=gtlk)
+	session.add(newvariant)
+	line = infile.readline()
+
+session.commit()
+
+infile.close()	
