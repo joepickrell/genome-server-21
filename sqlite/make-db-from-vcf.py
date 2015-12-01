@@ -7,6 +7,7 @@ from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 
 
+
 infile = gzip.open(sys.argv[1])
 dbfile = sys.argv[2]
 
