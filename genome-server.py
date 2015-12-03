@@ -83,6 +83,12 @@ class Phenotype(db.Model):
                 'pheno_name': self.pheno_name,
                 'pheno_value': self.pheno_value
         }
+    @property
+    def serialize_nov(self):
+        return{
+                'id':  self.id,
+                'pheno_name': self.pheno_name
+        }
 
 
 db.create_all()
@@ -120,7 +126,7 @@ while line:
                         gt = gtfields[i]
                 elif f == "GL":
                         gtlk = gtfields[i]
-        print(chr, pos, gt)
+        print("LOADING:", chr, pos, gt)
         newvariant = Variant(chr=chr, pos=pos, rsid=snpid, ref=ref, alt=alt, geno=gt, genolk=gtlk)
         db.session.add(newvariant)
         line = infile.readline()
@@ -169,15 +175,36 @@ def buy_file():
     else:
         return send_from_directory(vcf_path,file_list[int(sel)])
 
+def make_public_variant(variant):
+    new_variant = {}
+    for field in variant:
+        if field == 'id':
+            new_variant['uri'] = url_for('get_variants', variant_id=variant['id'], _external=True)
+        else:
+            new_variant[field] = variant[field]
+    return new_task
+
 @app.route('/variants', methods=['GET'])
 def get_variants():
 	snpquery = db.session.query(Variant)
-	return jsonify(snp_list = [i.serialize_nogt for i in snpquery.all()])
+	return jsonify(variant_list = [i.serialize_nogt for i in snpquery.all()])
 
 @app.route('/phenotypes', methods=['GET'])
 def get_phenos():
 	snpquery = db.session.query(Phenotype)
-	return jsonify(snp_list = [i.serialize for i in snpquery.all()])
+	return jsonify(pheno_list = [i.serialize_nov for i in snpquery.all()])
+
+@app.route('/buyvariant/<chromosome>/<int:position>', methods=['GET'])
+@payment.required(1)
+def get_snp(chromosome, position):
+    	snpquery = db.session.query(Variant).filter(Variant.chr == chromosome).filter(Variant.pos == position)
+    	return jsonify(variant_list=[i.serialize for i in snpquery.all()])
+
+@app.route('/buyphenotype/<int:phenoid>', methods=['GET'])
+@payment.required(1)
+def get_pheno(phenoid):
+    	phenoquery = db.session.query(Phenotype).filter(Phenotype.id == phenoid)
+    	return jsonify(pheno_list=[i.serialize for i in phenoquery.all()])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
