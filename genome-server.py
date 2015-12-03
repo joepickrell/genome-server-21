@@ -179,20 +179,29 @@ def make_public_variant(variant):
     new_variant = {}
     for field in variant:
         if field == 'id':
-            new_variant['uri'] = url_for('get_variants', variant_id=variant['id'], _external=True)
+            new_variant['uri'] = url_for('get_snp', chromosome=variant['chr'], position = variant['pos'], _external=True)
         else:
             new_variant[field] = variant[field]
-    return new_task
+    return new_variant
+
+def make_public_phenotype(pheno):
+    new_pheno = {}
+    for field in pheno:
+        if field == 'id':
+            new_pheno['uri'] = url_for('get_pheno', phenoid=pheno['id'],  _external=True)
+        else:
+            new_pheno[field] = pheno[field]
+    return new_pheno
 
 @app.route('/variants', methods=['GET'])
 def get_variants():
 	snpquery = db.session.query(Variant)
-	return jsonify(variant_list = [i.serialize_nogt for i in snpquery.all()])
+	return jsonify(variant_list = [make_public_variant(i.serialize_nogt) for i in snpquery.all()])
 
 @app.route('/phenotypes', methods=['GET'])
 def get_phenos():
 	snpquery = db.session.query(Phenotype)
-	return jsonify(pheno_list = [i.serialize_nov for i in snpquery.all()])
+	return jsonify(pheno_list = [make_public_phenotype(i.serialize_nov) for i in snpquery.all()])
 
 @app.route('/buyvariant/<chromosome>/<int:position>', methods=['GET'])
 @payment.required(1)
@@ -207,4 +216,4 @@ def get_pheno(phenoid):
     	return jsonify(pheno_list=[i.serialize for i in phenoquery.all()])
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=False)
