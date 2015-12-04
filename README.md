@@ -55,3 +55,8 @@ GET /variants : list of genotypes, uri for each
 
 GET /vcf : list of VCF files
 
+GET [cost: 1 satoshi] /buyvariant/[chr]/[pos] : returns the VCF genotype and genotype likelihoods at chromosome chr and position pos
+
+GET [cost: 1 satoshi] /buypheno/[phenoid] : returns the phenotype value for phenotype phenoid
+
+
