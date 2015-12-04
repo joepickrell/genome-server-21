@@ -12,8 +12,7 @@ Setup
 
 	$ cd genome-server-21 
 
-	$ sudo pip3 install Flask-SQLAlchemy sqlite3
-
+	$ sudo pip3 install Flask-SQLAlchemy 
 ```
 2. make the database of genotypes/phenotypes, serve
 ```
