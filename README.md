@@ -68,6 +68,8 @@ test = requests.get(url="http://localhost:5000/buyphenotype/1")
 print(test.content)
 ```
 
+Anyone can thus give me 1 satoshi to know my height (or weight, or any genotype from the database).
+
 # Endpoints
 
 GET /phenotypes : list of phenotypes, uri for each
