@@ -45,7 +45,28 @@ Date: Fri, 04 Dec 2015 03:30:13 GMT
   ]
 }
 ```
+If you try to see the actual value of the phenotype, however:
 
+```
+	$ curl -i http://localhost:5000/buyphenotype/1
+```
+
+this will fail with error 402: payment required (1 satoshi). Using the 21 libraries, this can be successfully requested with the following python code:
+
+```
+# Import methods from the 21 Bitcoin Library
+from two1.commands.config import Config
+from two1.lib.wallet import Wallet
+from two1.lib.bitrequests import BitTransferRequests
+
+# Configure your Bitcoin wallet.
+username = Config().username
+wallet = Wallet()
+requests = BitTransferRequests(wallet, username)
+
+test = requests.get(url="http://localhost:5000/buyphenotype/1")
+print(test.content)
+```
 
 # Endpoints
 
