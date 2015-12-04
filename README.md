@@ -1,8 +1,6 @@
 # genome-server-21
 
-[warning: untested, likely buggy code]
-
-Use the 21 bitcoin computer to sell API calls to your genotypes and phenotypes. Genotypes/phenotypes stored in sqlite database, also can sell bulk access to a VCF file.
+Testing how to use the 21 bitcoin computer to sell API calls to your genotypes and phenotypes. Genotypes/phenotypes stored in sqlite database, also can sell bulk access to a VCF file.
 
 Setup
 -----
@@ -23,14 +21,19 @@ Setup
 
 	$ curl -i http://localhost:5000/phenotypes
 
-You should get a JSON list of phenotypes for sale (all are 1 satoshi in this demo), like
+You should get a JSON list of phenotypes, like
 
 
 
 # Endpoints
 
-/phenotypes: list of phenotypes for sale, url for each
+GET /phenotypes : list of phenotypes, uri for each
 
-/variants: list of genotypes for sale, url for each
+GET /variants : list of genotypes, uri for each
 
+GET /vcf : list of VCF files
+
+GET /buyvariant/<chromosome>/<int:position> : genotype at chromosome and position [1 satoshi]
+
+GET /buyphenotype/<int:phenoid> : phenotype with id phenoid [1 satoshi]
 
