@@ -138,7 +138,7 @@ wallet = Wallet()
 payment = Payment(app, wallet)
 
 # path to the bulk VCF files to sell
-vcf_path = '/home/twenty-server/genome-server/vcffile'
+vcf_path = os.path.dirname(os.path.realpath(__file__)) + '/vcffile'
 
 
 # simple content model: dictionary of files w/ prices
